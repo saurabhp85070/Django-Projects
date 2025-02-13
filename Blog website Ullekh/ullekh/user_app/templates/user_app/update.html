@@ -1,0 +1,119 @@
+{% extends 'web_app/base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'user_app/css/style.css' %}">
+
+<div class="update-profile-container">
+    <h2>Update Profile</h2>
+    <form method="POST" enctype="multipart/form-data" class="update-profile-form" novalidate>
+        {% csrf_token %}
+        {{ form.media }}
+        {% if form.non_field_errors %}
+            <div class="errorlist">{{ form.non_field_errors }}</div>
+        {% endif %}
+        
+        <div class="form-row">
+            <div class="form-group half-width">
+                <label for="{{ form.first_name.id_for_label }}">First Name</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                    <div class="errorlist">{{ form.first_name.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group half-width">
+                <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                    <div class="errorlist">{{ form.last_name.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">Username</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="errorlist">{{ form.username.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="errorlist">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.profession.id_for_label }}">Profession</label>
+            {{ form.profession }}
+            {% if form.profession.errors %}
+                <div class="errorlist">{{ form.profession.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.profile_pic.id_for_label }}">Profile Picture</label>
+            {{ form.profile_pic }}
+            {% if form.profile_pic.errors %}
+                <div class="errorlist">{{ form.profile_pic.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.about.id_for_label }}">About</label>
+            <small id="about-help-text">{{ form.about.help_text }}</small>
+            {{ form.about }}
+            {% if form.about.errors %}
+                <div class="errorlist">{{ form.about.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.linkedin.id_for_label }}">LinkedIn</label>
+            {{ form.linkedin }}
+            {% if form.linkedin.errors %}
+                <div class="errorlist">{{ form.linkedin.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.github.id_for_label }}">GitHub</label>
+            {{ form.github }}
+            {% if form.github.errors %}
+                <div class="errorlist">{{ form.github.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.kaggle.id_for_label }}">Kaggle</label>
+            {{ form.kaggle }}
+            {% if form.kaggle.errors %}
+                <div class="errorlist">{{ form.kaggle.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.X.id_for_label }}">X</label>
+            {{ form.X }}
+            {% if form.X.errors %}
+                <div class="errorlist">{{ form.X.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.other_link.id_for_label }}">Other Link</label>
+            {{ form.other_link }}
+            {% if form.other_link.errors %}
+                <div class="errorlist">{{ form.other_link.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="update-profile-btn">Update Profile</button>
+    </form>
+</div>
+
+{% endblock content %}

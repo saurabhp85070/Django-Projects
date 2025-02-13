@@ -1,0 +1,125 @@
+{% extends 'web_app/base.html' %}
+
+{% block content %}
+{% load static %}
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--background-color);
+    }
+    
+    .privacy-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 70px;
+    }
+    
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .header h1 {
+        color: var(--primary-color);
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+    
+    .logo {
+        max-width: 150px;
+        height: auto;
+    }
+    
+    h2 {
+        color: var(--secondary-color);
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+    
+    p, ul {
+        margin-bottom: 15px;
+    }
+    
+    ul {
+        padding-left: 20px;
+    }
+    
+    @media (max-width: 600px) {
+        body {
+            font-size: 14px;
+        }
+        
+        .privacy-container {
+            padding: 10px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+        }
+        
+        h2 {
+            font-size: 20px;
+        }
+        
+        .logo {
+            max-width: 75px;
+        }
+    }
+</style>
+<div class="privacy-container">
+    <div class="header">
+        <h1>Privacy Policy</h1>
+        <img class="logo" src="{% static 'blog_app/assets/logo.png' %}" alt="ullekh Logo">
+    </div>
+    <p>Last updated: <b>September, 2024</b></p>
+
+    <h2>1. Introduction</h2>
+    <p>Welcome to Ullekh. We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website <a href="{{ protocol }}://{{ domain }}">{{ protocol }}://{{ domain }}</a> and use our services.</p>
+
+    <h2>2. Information We Collect</h2>
+    <p>We collect information that you provide directly to us when you:</p>
+    <ul>
+        <li>Create an account</li>
+        <li>Update your profile</li>
+        <li>Post blogs or comments</li>
+        <li>Save or download blogs</li>
+        <li>Follow other users</li>
+        <li>Send messages through our contact form</li>
+        <li>Verify your account</li>
+        <li>Reset your password</li>
+    </ul>
+    <p>This information may include:</p>
+    <ul>
+        <li>Name</li>
+        <li>Email address</li>
+        <li>Username</li>
+        <li>Password</li>
+        <li>Profile information</li>
+        <li>Content of your blogs and comments</li>
+        <li>Information about your interactions with other users</li>
+    </ul>
+
+    <!-- Rest of the content remains the same -->
+
+    <h2>8. Contact Us</h2>
+    <p>If you have any questions about this Privacy Policy, please <a href="{% url 'index' %}#contact">contact us.</a></p>
+</div>
+
+    
+{% endblock content %}
+    

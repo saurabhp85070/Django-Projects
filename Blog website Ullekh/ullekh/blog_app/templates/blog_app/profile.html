@@ -1,0 +1,180 @@
+{% extends 'web_app/base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'blog_app/css/style.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-image">
+            {% if author_profile.profile_pic %}
+                <img src="{{ author_profile.profile_pic.url }}" alt="Profile Image">
+            {% else %}
+                <img src="{% static 'web_app/assets/prof.png' %}" alt="Default Profile Image">
+            {% endif %}
+        </div>
+        <div class="user-info">
+            <h2 class="user-name">{{ author_profile.user.get_full_name }}</h2>
+            <p class="profession">{{ author_profile.profession|default:"No profession provided." }}</p>
+        </div>
+        <div class="follower-following-count">
+            <span class="follower-count">
+                <i class="fas fa-user-friends"></i> {{ follower_count }} Followers
+            </span>
+            <span class="following-count">
+                <i class="fas fa-user-plus"></i> {{ following_count }} Following
+            </span>
+        </div>
+        {% if request.user != author_profile.user %}
+        <form method="post" class="follow-button">
+            {% csrf_token %}
+            {% if is_following %}
+            <button type="submit" name="unfollow" class="btn btn-danger">
+                <i class="fas fa-user-minus"></i> Unfollow
+            </button>
+            {% else %}
+            <button type="submit" name="follow" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i> Follow
+            </button>
+            {% endif %}
+        </form>
+        {% endif %}
+    </div>
+
+    <div class="social-links">
+        {% if author_profile.linkedin %}
+            <a href="{{ author_profile.linkedin }}" target="_blank" class="social-icon linkedin">
+                <i class="fab fa-linkedin"></i>
+            </a>
+        {% endif %}
+        {% if author_profile.github %}
+            <a href="{{ author_profile.github }}" target="_blank" class="social-icon github">
+                <i class="fab fa-github"></i>
+            </a>
+        {% endif %}
+        {% if author_profile.kaggle %}
+            <a href="{{ author_profile.kaggle }}" target="_blank" class="social-icon kaggle">
+                <i class="fab fa-kaggle"></i>
+            </a>
+        {% endif %}
+        {% if author_profile.X %}
+            <a href="{{ author_profile.X }}" target="_blank" class="social-icon x-twitter">
+                <i class="fab fa-x-twitter"></i>
+            </a>
+        {% endif %}
+        {% if author_profile.other_link %}
+            <a href="{{ author_profile.other_link }}" target="_blank" class="social-icon portfolio">
+                <i class="fas fa-globe"></i>
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="profile-nav">
+        <a href="#about" class="nav-link profile-nav-link" data-tab="about">About</a>
+        <a href="#blogs" class="nav-link profile-nav-link" data-tab="blogs">Blogs</a>
+        <a href="#following" class="nav-link profile-nav-link" data-tab="following">Following</a>
+        <a href="#followers" class="nav-link profile-nav-link" data-tab="followers">Followers</a>
+    </div>
+
+    <div class="profile-content">
+        <div id="about" class="tab-content">
+            <div class="about-section">
+                <h4>About Author</h4>
+                <p>{{ author_profile.about|default:"No information provided." }}</p>
+            </div>
+        </div>
+
+        <div id="blogs" class="tab-content">
+            <div class="author-blogs">
+                <h4>Author's Blogs</h4>
+                {% if author_blogs %}
+                    <ul class="blog-list">
+                        {% for post in author_blogs %}
+                            <li class="blog-item {% cycle 'odd' 'even' %}">
+                                <div class="blog-content">
+                                    <h5>{{ post.title }}</h5>
+                                    <p>{{ post.body | safe | truncatewords:30 }}</p>
+                                    <a href="{% url 'detailblog' post.post_id %}" class="btn btn-primary"><i class="fa-solid fa-eye"></i> View Post</a>
+                                </div>
+                                <div class="blog-image">
+                                    {% if post.image and post.image.url %}
+                                        <img src="{{ post.image.url }}" alt="article header image">
+                                    {% else %}
+                                        <img src="{% static 'web_app/assets/blog.jpg' %}" alt="Default Blog Image">
+                                    {% endif %}
+                                    
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No blogs posted yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div id="following" class="tab-content">
+            <div class="following-list">
+                <h4>Following</h4>
+                {% if following_users %}
+                    <ul>
+                        {% for user in following_users %}
+                            <li class="following-item">
+                                <div class="profile-image">
+                                    {% if user.userprofile.profile_pic %}
+                                        <img src="{{ user.userprofile.profile_pic.url }}" alt="{{ user.get_full_name }} Profile Image">
+                                    {% else %}
+                                        <img src="{% static 'web_app/assets/prof.png' %}" alt="Default Profile Image">
+                                    {% endif %}
+                                </div>
+                                <div class="user-info">
+                                    <h6>{{ user.get_full_name }}</h6>
+                                    <p>@{{ user.username }}</p>
+                                </div>
+                                <div class="view-profile-btn">
+                                    <a href="{% url 'profile' pk=user.userprofile.profile_id %}" class="btn btn-primary">View Profile</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Not following anyone yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div id="followers" class="tab-content">
+            <div class="follower-list">
+                <h4>Followers</h4>
+                {% if author_profile.followers.all %}
+                    <ul>
+                        {% for user in author_profile.followers.all %}
+                            <li class="follower-item">
+                                <div class="profile-image">
+                                    {% if user.userprofile.profile_pic %}
+                                        <img src="{{ user.userprofile.profile_pic.url }}" alt="{{ user.get_full_name }} Profile Image">
+                                    {% else %}
+                                        <img src="{% static 'web_app/assets/prof.png' %}" alt="Default Profile Image">
+                                    {% endif %}
+                                </div>
+                                <div class="user-info">
+                                    <h6>{{ user.get_full_name }}</h6>
+                                    <p>@{{ user.username }}</p>
+                                </div>
+                                <div class="view-profile-btn">
+                                    <a href="{% url 'profile' pk=user.userprofile.profile_id %}" class="btn btn-primary">View Profile</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No followers yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'blog_app/js/script.js' %}"></script>
+
+{% endblock content %}

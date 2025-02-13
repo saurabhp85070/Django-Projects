@@ -1,0 +1,20 @@
+{% extends 'web_app/base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'user_app/css/style.css' %}">
+
+<div class="delete-container">
+    <div class="delete-content">
+        <p id="confirm-msg">Your all data will be deleted from website. Are you sure you want to delete your account?</p>
+        <div class="delete-actions">
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="delete-btn delete">Delete Account</button>
+            </form>
+            <a href="{% url 'account' %}" class="delete-btn cancel">Cancel</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

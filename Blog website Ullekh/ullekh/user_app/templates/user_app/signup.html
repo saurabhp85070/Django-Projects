@@ -1,0 +1,69 @@
+{% extends 'web_app/base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'user_app/css/style.css' %}">
+<script src="{% static 'user_app/js/script.js' %}"></script>
+<div class="container-signup">
+    <div id="signup" class="form-container active">
+        <h2 id="head">Sign Up</h2>
+
+        <form method='POST' novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="errorlist">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            <div class="input-row">
+                <div class="input-group {% if form.first_name.errors %}has-error{% endif %}">
+                    {{ form.first_name }}
+                    <label for="{{ form.first_name.id_for_label }}">First Name</label>
+                    {% if form.first_name.errors %}
+                        <div class="errorlist">{{ form.first_name.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="input-group {% if form.last_name.errors %}has-error{% endif %}">
+                    {{ form.last_name }}
+                    <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+                    {% if form.last_name.errors %}
+                        <div class="errorlist">{{ form.last_name.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="input-group {% if form.username.errors %}has-error{% endif %}">
+                {{ form.username }}
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {% if form.username.errors %}
+                    <div class="errorlist">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="input-group {% if form.email.errors %}has-error{% endif %}">
+                {{ form.email }}
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {% if form.email.errors %}
+                    <div class="errorlist">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="input-group {% if form.password1.errors %}has-error{% endif %}">
+                {{ form.password1 }}
+                <label for="{{ form.password1.id_for_label }}">Password</label>
+                {% if form.password1.errors %}
+                    <div class="errorlist">{{ form.password1.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="input-group {% if form.password2.errors %}has-error{% endif %}">
+                {{ form.password2 }}
+                <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                {% if form.password2.errors %}
+                    <div class="errorlist">{{ form.password2.errors }}</div>
+                {% endif %}
+            </div>
+            <button class="signin-signup-btn" type="submit">Sign Up</button>
+        </form>
+        <div class="switch">
+            Already have an account? <a href="{% url 'signin' %}">Sign In</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

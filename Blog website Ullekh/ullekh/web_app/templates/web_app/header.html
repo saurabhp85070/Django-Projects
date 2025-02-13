@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ullekh</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'web_app/assets/favicon.ico' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'web_app/css/style.css' %}">
+    <script src="{% static 'web_app/js/script.js' %}"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'web_app/assets/logo.png' %}" alt="Ullekh Logo" height="30">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'index' and not request.path_info|slice:'1:' %}active{% endif %}" href="{% url 'index' %}#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.path_info == '/#about' %}active{% endif %}" href="{% url 'index' %}#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.path_info == '/#blog-section' %}active{% endif %}" href="{% url 'index' %}#blog-section">Blogs</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'createblog' %}active{% endif %}" href="{% url 'createblog' %}">Create Blog</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link {% if request.path_info == '/#faq' %}active{% endif %}" href="{% url 'index' %}#faq">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.path_info == '/#contact' %}active{% endif %}" href="{% url 'index' %}#contact">Contact</a></li>
+                
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle 
+                            {% if request.resolver_match.url_name == 'account' or request.resolver_match.url_name == 'changepassword' %}active{% endif %}" 
+                            href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-regular fa-user"></i> {{request.user.first_name}}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'account' %}">My Account</a></li>
+                            <li><a class="dropdown-item" href="{% url 'changepassword' %}">Change Password</a></li>
+                            <li>
+                                <form method="post" action="{% url 'signout' %}" id="logout-form">
+                                    {% csrf_token %}
+                                    <a class="dropdown-item" href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    {% endif %}
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div id="message-container" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050;">
+            {% for message in messages %}
+                <div class="alert alert-dismissible fade show {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}alert-success{% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}alert-danger{% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}alert-warning{% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}alert-info{% endif %}" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ blog_post.title }}</title>
+    {% load static %}
+    <style>
+        @page {
+            size: letter;
+            margin: 2cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .logo img {
+            width: 200px; /* Increase width for a larger image */
+            height: auto; /* Auto adjust height to maintain aspect ratio */
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .meta {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        .content {
+            line-height: 1.3;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="{% static 'blog_app/assets/logo.png' %}" alt="Logo">
+    </div>
+    <div class="title">
+        <h1>{{ blog_post.title }}</h1>
+    </div>
+    <div class="meta">
+        <p>Posted on {{ blog_post.created_at|date:"F d, Y" }} by {{ blog_post.author.user.get_full_name }}</p>
+    </div>
+    <div class="content">
+        <p>{{ blog_post.body|safe }}</p>
+    </div>
+</body>
+</html>

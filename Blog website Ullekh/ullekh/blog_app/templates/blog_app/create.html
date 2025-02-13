@@ -1,0 +1,66 @@
+{% extends 'web_app/base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'blog_app/css/style.css' %}">
+
+<div class="create-blog-container">
+    <h2>
+        {% if is_update %}
+            Update Blog Post
+        {% else %}
+            Create New Blog Post
+        {% endif %}
+    </h2>
+    <form method="POST" enctype="multipart/form-data" class="create-blog-form" novalidate>
+        {% csrf_token %}
+        {{ form.media }}
+        {% if form.non_field_errors %}
+            <div class="errorlist">{{ form.non_field_errors }}</div>
+        {% endif %}
+        
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">Title</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="errorlist">{{ form.title.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.image.id_for_label }}">Header Image</label>
+            <small id="image-help-text">{{ form.image.help_text }}</small><br>
+            {{ form.image }}
+            {% if form.image.errors %}
+                <div class="errorlist">{{ form.image.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.body.id_for_label }}">Body</label>
+            {{ form.body }}
+            {% if form.body.errors %}
+                <div class="errorlist">{{ form.body.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.categories.id_for_label }}">Categories</label>
+            <small id="category-help-text">{{ form.categories.help_text }}</small>
+            {{ form.categories }}
+            {% if form.categories.errors %}
+                <div class="errorlist">{{ form.categories.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="create-blog-btn">
+            {% if is_update %}
+                Update Blog Post
+            {% else %}
+                Create Blog Post
+            {% endif %}
+        </button>
+    </form>
+</div>
+
+{% endblock content %}

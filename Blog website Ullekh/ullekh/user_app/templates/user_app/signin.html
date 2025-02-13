@@ -1,0 +1,43 @@
+{% extends 'web_app/base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'user_app/css/style.css' %}">
+<script src="{% static 'user_app/js/script.js' %}"></script>
+
+<div class="container-signin">
+    <div id="signin" class="form-container active">
+        <h2>Sign In</h2>
+        <form method='POST' novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="errorlist">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            <div class="input-group {% if form.username.errors %}has-error{% endif %}">
+                {{ form.username }}
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {% if form.username.errors %}
+                    <div class="errorlist">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="input-group {% if form.password.errors %}has-error{% endif %}">
+                {{ form.password }}
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                {% if form.password.errors %}
+                    <div class="errorlist">{{ form.password.errors }}</div>
+                {% endif %}
+            </div>
+            <button class="signin-signup-btn" type="submit">Sign In</button>
+        </form>
+        <div class="switch">
+            Don't have an account? <a href="{% url 'signup' %}">Sign Up</a>
+        </div>
+        <div class="forgot-password">
+            <a href="{% url 'password_reset' %}">Forgot Username or Password?</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

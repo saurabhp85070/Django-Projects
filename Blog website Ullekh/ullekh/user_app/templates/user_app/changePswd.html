@@ -1,0 +1,45 @@
+{% extends 'web_app/base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'user_app/css/style.css' %}">
+<script src="{% static 'user_app/js/script.js' %}"></script>
+<div class="container-signup">
+    <div id="change-password" class="form-container active">
+        <h2 id="head">Change Password</h2>
+        <form method='POST' novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="errorlist">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            <div class="input-group {% if form.old_password.errors %}has-error{% endif %}">
+                {{ form.old_password }}
+                <label for="{{ form.old_password.id_for_label }}">Current Password</label>
+                {% if form.old_password.errors %}
+                    <div class="errorlist">{{ form.old_password.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="input-group {% if form.new_password1.errors %}has-error{% endif %}">
+                {{ form.new_password1 }}
+                <label for="{{ form.new_password1.id_for_label }}">New Password</label>
+                {% if form.new_password1.errors %}
+                    <div class="errorlist">{{ form.new_password1.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="input-group {% if form.new_password2.errors %}has-error{% endif %}">
+                {{ form.new_password2 }}
+                <label for="{{ form.new_password2.id_for_label }}">Confirm New Password</label>
+                {% if form.new_password2.errors %}
+                    <div class="errorlist">{{ form.new_password2.errors }}</div>
+                {% endif %}
+            </div>
+            <button class="signin-signup-btn" type="submit">Change Password</button>
+        </form>
+        <div class="switch">
+            <a href="{% url 'account' %}">Back to Account</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

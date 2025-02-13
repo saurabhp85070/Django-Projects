@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saurabh Prakash</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'portfolio_app/assets/favicon.ico' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'portfolio_app/css/style.css' %}">
+    <script src="{% static 'portfolio_app/js/script.js' %}"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'portfolio_app/assets/logo.png' %}" alt="Ullekh Logo" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'index' and not request.path_info|slice:'1:' %}active{% endif %}" href="{% url 'index' %}#home">Home</a></li>
+
+                    <li class="nav-item"><a class="nav-link {% if request.path_info == '/#about' %}active{% endif %}" href="{% url 'index' %}#about">About</a></li>
+
+                    <li class="nav-item"><a class="nav-link {% if request.path_info == '/#skill' %}active{% endif %}" href="{% url 'index' %}#skill">Skills</a></li>
+
+                    <li class="nav-item"><a class="nav-link {% if request.path_info == '/#portfolio-section' %}active{% endif %}" href="{% url 'index' %}#portfolio-section">Portfolio</a></li>
+
+                    <li class="nav-item"><a class="nav-link {% if request.path_info == '/#certificate' %}active{% endif %}" href="{% url 'index' %}#certificate">Certifications</a></li>
+
+
+                    <li class="nav-item"><a class="nav-link {% if request.path_info == '/#contact' %}active{% endif %}" href="{% url 'index' %}#contact">Contact</a></li>
+            
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div id="message-container" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050;">
+            {% for message in messages %}
+                <div class="alert alert-dismissible fade show {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}alert-success{% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}alert-danger{% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}alert-warning{% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}alert-info{% endif %}" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}

@@ -1,0 +1,204 @@
+{% extends 'web_app/base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'user_app/css/style.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="account-container">
+    <div class="account-header">
+        <a href="{% url 'updateaccount' %}" class="account-btn update-profile">Update Profile</a>
+    </div>
+
+    <div class="profile-header">
+        <div class="profile-image">
+            {% if user_account.profile_pic %}
+                <img src="{{ user_account.profile_pic.url }}" alt="Profile Image">
+            {% else %}
+                <img src="{% static 'web_app/assets/prof.png' %}" alt="Default Profile Image">
+            {% endif %}
+        </div>
+        <div class="user-info">
+            <h2 class="user-name">{{ user.get_full_name }}</h2>
+            <p class="username">@{{ user.username }}</p>
+            <p class="username"><i class="fa-regular fa-envelope"></i> {{ user.email }}</p>
+            <p class="profession">{{ user_account.profession|default:"No profession provided." }}</p>
+        </div>
+        <div class="follower-following-count">
+            <span class="follower-count">
+                <i class="fas fa-user-friends"></i> {{ follower_count }} Followers
+            </span>
+            <span class="following-count">
+                <i class="fas fa-user-plus"></i> {{ following_count }} Following
+            </span>
+        </div>
+    </div>
+
+    <div class="social-links">
+        {% if user_account.linkedin %}
+            <a href="{{ user_account.linkedin }}" target="_blank" class="social-icon linkedin">
+                <i class="fab fa-linkedin"></i>
+            </a>
+        {% endif %}
+        {% if user_account.github %}
+            <a href="{{ user_account.github }}" target="_blank" class="social-icon github">
+                <i class="fab fa-github"></i>
+            </a>
+        {% endif %}
+        {% if user_account.kaggle %}
+            <a href="{{ user_account.kaggle }}" target="_blank" class="social-icon kaggle">
+                <i class="fab fa-kaggle"></i>
+            </a>
+        {% endif %}
+        {% if user_account.X %}
+            <a href="{{ user_account.X }}" target="_blank" class="social-icon x-twitter">
+                <i class="fab fa-x-twitter"></i>
+            </a>
+        {% endif %}
+        {% if user_account.other_link %}
+            <a href="{{ user_account.other_link }}" target="_blank" class="social-icon portfolio">
+                <i class="fas fa-globe"></i>
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="profile-nav">
+        <a href="#about" class="nav-link profile-nav-link" data-tab="about">About</a>
+        <a href="#blogs" class="nav-link profile-nav-link" data-tab="blogs">Blogs</a>
+        <a href="#saved" class="nav-link profile-nav-link" data-tab="saved">Saved Blogs</a>
+        <a href="#following" class="nav-link profile-nav-link" data-tab="following">Following</a>
+        <a href="#followers" class="nav-link profile-nav-link" data-tab="followers">Followers</a>
+    </div>
+
+    <div class="profile-content">
+        <div id="about" class="tab-content">
+            <div class="about-section">
+                <h4>About Me</h4>
+                <p>{{ user_account.about|default:"No information provided." }}</p>
+            </div>
+        </div>
+
+        <div id="blogs" class="tab-content">
+            <div class="user-blogs">
+                <h4>My Blogs</h4>
+                {% if user_blogs %}
+                    <ul class="blog-list">
+                        {% for post in user_blogs %}
+                            <li class="blog-item {% cycle 'odd' 'even' %}">
+                                <div class="blog-content">
+                                    <h5>{{ post.title }}</h5>
+                                    <p>{{ post.body | safe | truncatewords:30 }}</p>
+                                    <a href="{% url 'detailblog' post.post_id %}" class="btn btn-primary"><i class="fa-solid fa-eye"></i> View Post</a>
+                                </div>
+                                <div class="blog-image">
+                                    {% if post.image and post.image.url %}
+                                        <img src="{{ post.image.url }}" alt="article header image">
+                                    {% else %}
+                                        <img src="{% static 'web_app/assets/blog.jpg' %}" alt="Default Blog Image">
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No blogs posted yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div id="saved" class="tab-content">
+            <div class="saved-blogs">
+                <h4>Saved Blogs</h4>
+                {% if saved_posts %}
+                    <ul class="blog-list">
+                        {% for saved_post in saved_posts %}
+                            <li class="blog-item {% cycle 'odd' 'even' %}">
+                                <div class="blog-content">
+                                    <h5>{{ saved_post.post.title }}</h5>
+                                    <p>{{ saved_post.post.body | safe | truncatewords:30 }}</p>
+                                    <a href="{% url 'detailblog' saved_post.post.post_id %}" class="btn btn-primary"><i class="fa-solid fa-eye"></i> View Post</a>
+                                </div>
+                                <div class="blog-image">
+                                    {% if saved_post.post.image and saved_post.post.image.url %}
+                                        <img src="{{ saved_post.post.image.url }}" alt="article header image">
+                                    {% else %}
+                                        <img src="{% static 'web_app/assets/blog.jpg' %}" alt="Default Blog Image">
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No saved blogs yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div id="following" class="tab-content">
+            <div class="following-list">
+                <h4>Following</h4>
+                {% if following_users %}
+                    <ul>
+                        {% for user in following_users %}
+                            <li class="following-item">
+                                <div class="profile-image">
+                                    {% if user.userprofile.profile_pic %}
+                                        <img src="{{ user.userprofile.profile_pic.url }}" alt="{{ user.get_full_name }} Profile Image">
+                                    {% else %}
+                                        <img src="{% static 'web_app/assets/prof.png' %}" alt="Default Profile Image">
+                                    {% endif %}
+                                </div>
+                                <div class="user-info">
+                                    <h6>{{ user.get_full_name }}</h6>
+                                    <p>@{{ user.username }}</p>
+                                </div>
+                                <div class="view-profile-btn">
+                                    <a href="{% url 'profile' pk=user.userprofile.profile_id %}" class="btn btn-primary">View Profile</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Not following anyone yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div id="followers" class="tab-content">
+            <div class="follower-list">
+                <h4>Followers</h4>
+                {% if user_account.followers.all %}
+                    <ul>
+                        {% for user in user_account.followers.all %}
+                            <li class="follower-item">
+                                <div class="profile-image">
+                                    {% if user.userprofile.profile_pic %}
+                                        <img src="{{ user.userprofile.profile_pic.url }}" alt="{{ user.get_full_name }} Profile Image">
+                                    {% else %}
+                                        <img src="{% static 'web_app/assets/prof.png' %}" alt="Default Profile Image">
+                                    {% endif %}
+                                </div>
+                                <div class="user-info">
+                                    <h6>{{ user.get_full_name }}</h6>
+                                    <p>@{{ user.username }}</p>
+                                </div>
+                                <div class="view-profile-btn">
+                                    <a href="{% url 'profile' pk=user.userprofile.profile_id %}" class="btn btn-primary">View Profile</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No followers yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="account-footer">
+        <a class="btn btn-danger account-btn delete-account" href="{% url 'deleteaccount' %}" role="button">Delete Account</a>
+    </div>
+</div>
+<script src="{% static 'user_app/js/script.js' %}"></script>
+
+{% endblock content %}

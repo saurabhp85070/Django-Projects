@@ -1,0 +1,20 @@
+{% extends 'web_app/base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'blog_app/css/style.css' %}">
+
+<div class="delete-container">
+    <div class="delete-content">
+        <p id="confirm-msg">This blog will be removed from website. Are you sure you want to delete this blog?</p>
+        <div class="delete-actions">
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="delete-btn delete">Delete Blog</button>
+            </form>
+            <a href="{{ next_url }}" class="delete-btn cancel">Cancel</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
