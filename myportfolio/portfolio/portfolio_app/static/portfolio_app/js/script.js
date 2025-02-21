@@ -45,8 +45,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
             // Re-attach event listeners to pagination links
             attachPaginationListeners();
 
-            // Scroll to the blog section
-            scrollToSection('blog-section');
+            // Scroll to the top of the blog container
+            if (blogContainer) {
+                const headerOffset = 100; // Adjust based on your header height
+                const blogContainerTop = blogContainer.getBoundingClientRect().top;
+                const offsetPosition = blogContainerTop + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
         })
         .catch(error => console.error('Error:', error));
     }
@@ -64,27 +73,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
     searchForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const query = searchInput.value.trim();
-        const url = `${window.location.pathname}?q=${encodeURIComponent(query)}#blog-section`;
+        const url = `${window.location.pathname}?q=${encodeURIComponent(query)}`;
         performSearch(url);
     });
 
     searchInput.addEventListener('input', (e) => {
         if (e.target.value.trim() === '') {
-            const url = `${window.location.pathname}#blog-section`;
+            const url = window.location.pathname;
             performSearch(url);
         }
     });
 
     // Initial pagination listener setup
     attachPaginationListeners();
-
-    // Scroll to section function
-    function scrollToSection(sectionId) {
-        const section = document.getElementById(sectionId);
-        if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
 
     // Portfolio pagination handling
     function updatePortfolioContent(url) {
@@ -106,7 +107,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             window.history.pushState({}, '', url);
             attachPortfolioPaginationListeners();
-            scrollToSection('portfolio-section');
+
+            // Scroll to the top of the portfolio container
+            const portfolioContainer = document.getElementById('blog-cards-container');
+            if (portfolioContainer) {
+                const headerOffset = 100; // Adjust based on your header height
+                const portfolioContainerTop = portfolioContainer.getBoundingClientRect().top;
+                const offsetPosition = portfolioContainerTop + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
         })
         .catch(error => console.error('Error fetching portfolio content:', error));
     }
