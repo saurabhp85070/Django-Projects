@@ -173,7 +173,7 @@
     </section>
 
 
-    <!-- Blog card preview section -->
+    <!-- Portfolio Section -->
     <section id="portfolio-section" class="portfolio-section">
         <div class="container">
             <h2 class="text-center mb-4">Portfolio</h2>
@@ -188,49 +188,30 @@
                 </form>
             </div>
 
+            <!-- Blog Cards -->
             <div id="blog-cards-container" class="row">
                 {% if page_obj %}
                     {% for project in page_obj %}
                         <div class="col-md-4 mb-4">
                             <div class="blog-card">
-                                
-                                {% comment %} <a class="text-decoration-none link-dark" href="{% url 'projectdetail' project.project_id %}"> {% endcomment %}
-
                                 {% if project.image and project.image.url %}
-                                    <img src="{{project.image.url}}" alt="Project header image">
+                                    <img src="{{ project.image.url }}" alt="Project header image">
                                 {% else %}
-                                    <img src="{% static 'portfolio_app/assets/blog.jpg' %}" alt="no image available">
+                                    <img src="{% static 'portfolio_app/assets/blog.jpg' %}" alt="No image available">
                                 {% endif %}
                                 
                                 <div class="content">
                                     <div class="mb-2">
-                                        {% if project.tag1 %}
-                                            <span class="tag me-1">{{project.tag1}}</span>
-                                        {% endif %}
-                                        {% if project.tag2 %}
-                                            <span class="tag me-1">{{project.tag2}}</span>
-                                        {% endif %}
-                                        {% if project.tag3 %}
-                                            <span class="tag me-1">{{project.tag3}}</span>
-                                        {% endif %}
-                                        {% if project.tag4 %}
-                                            <span class="tag me-1">{{project.tag4}}</span>
-                                        {% endif %}
-                                        {% if project.tag5 %}
-                                            <span class="tag me-1">{{project.tag5}}</span>
-                                        {% endif %}
+                                        {% for tag in project.get_tags %}
+                                            <span class="tag me-1">{{ tag }}</span>
+                                        {% endfor %}
                                     </div>
-                                    <h5>{{project.title}}</h5>
-                                    {% comment %} <p>{{project.body | safe | truncatechars:200}}</p> {% endcomment %}
+                                    <h5>{{ project.title }}</h5>
                                     <br>
-
                                     <div class="text-center">
                                         <a href="{% url 'projectdetail' project_id=project.project_id %}" class="btn btn-primary">View Details</a>
                                     </div>
-                                    
-                                    
                                 </div>
-                                </a>
                             </div>
                         </div>
                     {% endfor %}
@@ -244,33 +225,33 @@
                 <ul class="pagination justify-content-center">
                     {% if page_obj.has_previous %}
                         <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}#portfolio-section" onclick="scrollToPortfolioSection(event)">Previous</a>
+                            <a class="page-link pagination-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}#portfolio-section">Previous</a>
                         </li>
                     {% else %}
                         <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            <a class="page-link">Previous</a>
                         </li>
                     {% endif %}
 
                     {% for num in page_obj.paginator.page_range %}
                         {% if page_obj.number == num %}
-                            <li class="page-item active" aria-current="page">
-                                <a class="page-link" href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}#portfolio-section" onclick="scrollToPortfolioSection(event)">{{ num }}</a>
+                            <li class="page-item active">
+                                <a class="page-link pagination-link" href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}#portfolio-section">{{ num }}</a>
                             </li>
                         {% else %}
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}#portfolio-section" onclick="scrollToPortfolioSection(event)">{{ num }}</a>
+                                <a class="page-link pagination-link" href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}#portfolio-section">{{ num }}</a>
                             </li>
                         {% endif %}
                     {% endfor %}
 
                     {% if page_obj.has_next %}
                         <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}#portfolio-section" onclick="scrollToPortfolioSection(event)">Next</a>
+                            <a class="page-link pagination-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}#portfolio-section">Next</a>
                         </li>
                     {% else %}
                         <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+                            <a class="page-link">Next</a>
                         </li>
                     {% endif %}
                 </ul>

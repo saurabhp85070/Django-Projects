@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    // messages
+    // Messages (alerts)
     var messages = document.querySelectorAll('.alert');
     messages.forEach(function(message) {
         message.style.display = 'block';
@@ -24,11 +24,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const paginationContainer = document.getElementById('pagination-container');
 
     function performSearch(url) {
-        fetch(url, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
+        fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
         .then(response => response.json())
         .then(data => {
             const tempDiv = document.createElement('div');
@@ -49,8 +45,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             // Re-attach event listeners to pagination links
             attachPaginationListeners();
 
-            // Scroll to the top of the blog section
-            scrollToBlogSection();
+            // Scroll to the blog section
+            scrollToSection('blog-section');
         })
         .catch(error => console.error('Error:', error));
     }
@@ -79,19 +75,55 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
-    // Initial attachment of pagination listeners
+    // Initial pagination listener setup
     attachPaginationListeners();
 
-    // Scroll to blog section function
-    function scrollToBlogSection() {
-        const blogSection = document.getElementById('blog-section');
-        blogSection.scrollIntoView({
-            behavior: 'smooth'
+    // Scroll to section function
+    function scrollToSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // Portfolio pagination handling
+    function updatePortfolioContent(url) {
+        fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(response => response.json())
+        .then(data => {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = data.html;
+
+            const newBlogCards = tempDiv.querySelector('#blog-cards-container');
+            const newPagination = tempDiv.querySelector('#pagination-container');
+
+            if (newBlogCards) {
+                document.getElementById('blog-cards-container').innerHTML = newBlogCards.innerHTML;
+            }
+            if (newPagination) {
+                document.getElementById('pagination-container').innerHTML = newPagination.innerHTML;
+            }
+
+            window.history.pushState({}, '', url);
+            attachPortfolioPaginationListeners();
+            scrollToSection('portfolio-section');
+        })
+        .catch(error => console.error('Error fetching portfolio content:', error));
+    }
+
+    function attachPortfolioPaginationListeners() {
+        const paginationLinks = document.querySelectorAll('.pagination-link');
+        paginationLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                updatePortfolioContent(this.href);
+            });
         });
     }
 
+    attachPortfolioPaginationListeners();
 
-    // active nav link highlight
+    // Active nav link highlight on scroll
     const sections = document.querySelectorAll("section[id]");
     const navLinks = document.querySelectorAll(".nav-link");
 
@@ -115,11 +147,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         });
 
-        // Special handling for when scroll is at the top or above the first section
         if (!foundActive) {
             if (scrollY < sections[0].offsetTop - 50) {
                 navLinks.forEach(link => link.classList.remove("active"));
-                navLinks[0].classList.add("active"); // Assuming the first nav link is "Home"
+                navLinks[0].classList.add("active");
             } else {
                 navLinks.forEach(link => link.classList.remove("active"));
             }
@@ -127,7 +158,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     window.addEventListener("scroll", activateLinkOnScroll);
-    activateLinkOnScroll(); // Run on initial load in case user is already at a section
+    activateLinkOnScroll();
 
     // Testimonials carousel
     const testimonialsCarousel = document.querySelector('.testimonials-carousel');
@@ -141,13 +172,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             loop: true,
             margin: 20,
             dotsEach: true,
-            responsive: {
-                0: {
-                    items: 1
-                }
-            },
+            responsive: { 0: { items: 1 } },
             onInitialized: function(event) {
-                // Ensure dots are visible after initialization
                 const dots = document.querySelectorAll('.owl-dot');
                 dots.forEach(dot => {
                     dot.style.display = 'block';
