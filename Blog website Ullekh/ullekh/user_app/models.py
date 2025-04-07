@@ -20,7 +20,10 @@ def user_profile_pic_path(instance, filename):
     return os.path.join('profile_pics', filename)
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE) 
+    # if we do like this: oberve the change in signals.py
+    # user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile") 
+    
     profession = models.CharField(max_length=100, blank=True, null=True)
     profile_pic = models.ImageField(upload_to=user_profile_pic_path, blank=True, null=True)
     about = models.TextField(blank=True, null=True)

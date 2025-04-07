@@ -12,3 +12,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.userprofile.save()
     # userprofile (lowercase) is the reverse relation automatically created by the OneToOneField in your UserProfile model.
+    
+    # if we used related_name="profile" in models.py
+    # instance.profile.save()# this will save the UserProfile instance associated with the User instance
