@@ -7,7 +7,7 @@ This repository is a collection of Django-based web applications created to prac
 
 ## 📁 Projects Included
 
-### [**Ullekh** - Blog Website]([https://github.com/saurabhp85070/Django-Projects/tree/main/Ullekh](https://github.com/saurabhp85070/Django-Projects/tree/main/Blog%20website%20Ullekh/ullekh))
+### [**Ullekh** - Blog Website](https://github.com/saurabhp85070/Django-Projects/tree/main/Blog%20website%20Ullekh/ullekh)
 A blogging platform where users can create, update, delete, read blogs and other things.
 
 - **Key Features**:
