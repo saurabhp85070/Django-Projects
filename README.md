@@ -1,6 +1,3 @@
-# Django-Projects
-This repo includes all my Django projects
-
 # Django Projects
 
 This repository is a collection of Django-based web applications created to practice and demonstrate various functionalities of the Django framework. Each project showcases features like user authentication, CRUD operations, template rendering, and deployment readiness and many more.
@@ -21,11 +18,11 @@ A blogging platform where users can create, update, delete, read blogs and other
   - Bookmark favorite blogs 
     
 
-- **Tech Stack**: Python, Django, HTML, CSS, Bootstrap, JavaScript, MySQL(in deployment), SQLite(in development)
+- **Tech Stack**: `Python`, `Django`, `HTML`, `CSS`, `Bootstrap`, `JavaScript`, `MySQL`(in deployment), `SQLite`(in development)
 
 ---
 
-### **Task Management App**
+### [**Task Management App**](https://github.com/saurabhp85070/Django-Projects/tree/main/Task%20Management/task_management)
 An application to manage personal or professional tasks efficiently.
 
 - **Key Features**:
@@ -38,7 +35,7 @@ An application to manage personal or professional tasks efficiently.
 
 ---
 
-### **YouR** - URL Organiser
+### [**YouR** - URL Organiser](https://github.com/saurabhp85070/Django-Projects/tree/main/YouR/YouR)
 A URL organiser that keep your URLs organised and can access those URLs easily when you need it
 
 - **Key Features**:
@@ -50,7 +47,7 @@ A URL organiser that keep your URLs organised and can access those URLs easily w
 
 ---
 
-### **Portfolio Website**
+### [**Portfolio Website**](https://github.com/saurabhp85070/Django-Projects/tree/main/myportfolio/portfolio)
 A personal portfolio site to showcase skills, projects, certifications, and provide contact information.
 
 - **Key Features**:
