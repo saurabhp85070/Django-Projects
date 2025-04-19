@@ -20,6 +20,7 @@ A blogging platform where users can create, update, delete, read blogs and other
 
 - **Tech Stack**: `Python`, `Django`, `HTML`, `CSS`, `Bootstrap`, `JavaScript`, `MySQL`(in deployment), `SQLite`(in development)
 
+- Want to try this project, simply [click here](https://ullekh.pythonanywhere.com/)
 ---
 
 ### [**Task Management App**](https://github.com/saurabhp85070/Django-Projects/tree/main/Task%20Management/task_management)
@@ -31,8 +32,9 @@ An application to manage personal or professional tasks efficiently.
   - Mark tasks as completed
   - Simple and clean UI
 
-- **Tech Stack**: Python, Django, HTML, CSS, Bootstrap, SQLite
-
+- **Tech Stack**: `Python`, `Django`, `HTML`, `CSS`, `Bootstrap`, `SQLite`
+  
+- Want to try this project, simply [click here](https://saurabhp85070.pythonanywhere.com/login/)
 ---
 
 ### [**YouR** - URL Organiser](https://github.com/saurabhp85070/Django-Projects/tree/main/YouR/YouR)
@@ -43,8 +45,9 @@ A URL organiser that keep your URLs organised and can access those URLs easily w
   - Perform CRUD 
   - Filter and search URLs
 
-- **Tech Stack**: Python, Django, HTML, CSS, Bootstrap, BeautifulSoup, SQLite
+- **Tech Stack**: `Python`, `Django`, `HTML`, `CSS`, `Bootstrap`, `BeautifulSoup`, `SQLite`
 
+- Want to try this project, simply [click here](https://yourorganiser.pythonanywhere.com/)
 ---
 
 ### [**Portfolio Website**](https://github.com/saurabhp85070/Django-Projects/tree/main/myportfolio/portfolio)
@@ -55,8 +58,9 @@ A personal portfolio site to showcase skills, projects, certifications, and prov
   - Contact form
   - Skills categorization
 
-- **Tech Stack**: Python, Django, HTML, CSS, Bootstrap, SQLite
+- **Tech Stack**: `Python`, `Django`, `HTML`, `CSS`, `Bootstrap`, `SQLite`
 
+- Want to try this project, simply [click here](https://saurabhprakash.pythonanywhere.com/)
 ---
 
 ## 🚀 Getting Started
