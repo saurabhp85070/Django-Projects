@@ -1,0 +1,56 @@
+<!-- edit_video.html -->
+{% extends 'vidapp/base.html' %}
+
+{% block title %}Edit: {{ bookmark.title }}{% endblock %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0">Edit Video Bookmark</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.url.id_for_label }}" class="form-label">Video URL *</label>
+                        {{ form.url.errors }}
+                        {{ form.url|add_class:"form-control" }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label">Title *</label>
+                        {{ form.title.errors }}
+                        {{ form.title|add_class:"form-control" }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
+                        {{ form.description.errors }}
+                        {{ form.description|add_class:"form-control" }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.thumbnail_url.id_for_label }}" class="form-label">Thumbnail URL</label>
+                        {{ form.thumbnail_url.errors }}
+                        {{ form.thumbnail_url|add_class:"form-control" }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.tags_input.id_for_label }}" class="form-label">Tags</label>
+                        {{ form.tags_input.errors }}
+                        {{ form.tags_input|add_class:"form-control" }}
+                        <div class="form-text">Separate tags with commas (e.g., cooking, recipe, italian)</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Update Bookmark</button>
+                    <a href="{% url 'video_detail' bookmark.pk %}" class="btn btn-outline-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

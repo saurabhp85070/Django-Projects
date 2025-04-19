@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to YouR!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to YouR!</h1>
+        <p>Dear {{ user.username }},</p>
+        <p>Thank you for joining <strong>YouR</strong> — your personal video link organizer!</p>
+
+        <p>Please remember your username and password as it will be required while login.</p>
+        <p style="border: 2px solid #007BFF; padding: 5px; background-color: yellow;">
+            Your username is: <strong>{{ user.username }}</strong>
+        </p>
+
+        <p>Here's what you can do:</p>
+        <ul>
+          <li>Save your favorite video links</li>
+          <li>Search your saved videos quickly</li>
+          <li>Update or delete them anytime</li>
+        </ul>
+        <p>
+            <a href="{{ site_url }}" class="button" style="color:white;">Visit YouR</a>
+        </p>
+        
+        
+        <div class="footer">
+            <p>Sincerely,<br>YouR Team</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to YouR!</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #333;">
+  <div style="max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
+    <h2>Welcome, {{ user.username }} 👋</h2>
+    <p>Thank you for joining <strong>YouR</strong> — your personal video link organizer!</p>
+
+    <h3>Here's what you can do:</h3>
+    <ul>
+      <li>Save your favorite video links</li>
+      <li>Search your saved videos quickly</li>
+      <li>Update or delete them anytime</li>
+    </ul>
+
+    <p>Click below to sign in and start saving videos:</p>
+    <a href="{{ login_url }}" style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px;">
+      Sign In to YouR
+    </a>
+
+    <p style="margin-top: 20px;">If you have any questions, feel free to reply to this email.</p>
+
+    <p>Cheers,<br>YouR Team</p>
+  </div>
+</body>
+</html>

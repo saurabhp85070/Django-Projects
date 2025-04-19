@@ -1,0 +1,97 @@
+<!-- video_list.html -->
+{% extends 'vidapp/base.html' %}
+
+{% block title %}My Videos{% endblock %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h1 class="mb-4">My Video Bookmarks</h1>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Search & Filter</h5>
+            </div>
+            <div class="card-body">
+                <form method="get" class="row g-3">
+                    <div class="col-md-6">
+                        <label for="{{ form.query.id_for_label }}" class="form-label">Search</label>
+                        {{ form.query|add_class:"form-control" }}
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label for="{{ form.source.id_for_label }}" class="form-label">Source</label>
+                        {{ form.source|add_class:"form-select" }}
+                    </div>
+                    
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                    </div>
+                    
+                    <div class="col-12 mt-3">
+                        <label class="form-label">Filter by Tags</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for tag in form.tags %}
+                                <div class="form-check">
+                                    {{ tag.tag }}
+                                    <label class="form-check-label" for="{{ tag.id_for_label }}">
+                                        {{ tag.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% if bookmarks %}
+        {% for bookmark in bookmarks %}
+            <div class="col-md-4 mb-4">
+                <div class="card video-card h-100">
+                    {% if bookmark.thumbnail_url %}
+                        <img src="{{ bookmark.thumbnail_url }}" class="card-img-top" alt="{{ bookmark.title }}">
+                    {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-play-circle text-secondary" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
+                            </svg>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ bookmark.title }}</h5>
+                        <p class="card-text small text-muted">
+                            {{ bookmark.get_source }} • Saved {{ bookmark.created_at|date:"M d, Y" }}
+                        </p>
+                        <div class="mb-3">
+                            {% for tag in bookmark.tags.all %}
+                                <span class="badge bg-secondary tag-badge">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <a href="{% url 'video_detail' bookmark.pk %}" class="btn btn-sm btn-primary">View Details</a>
+                        <a href="{{ bookmark.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">Watch Video</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <p class="mb-0">
+                    No videos found matching your search criteria.
+                    {% if request.GET %}
+                        <a href="{% url 'video_list' %}">Clear all filters</a>
+                    {% else %}
+                        <a href="{% url 'add_video' %}">Add your first video bookmark</a>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

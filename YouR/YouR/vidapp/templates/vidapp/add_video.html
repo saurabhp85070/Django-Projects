@@ -1,0 +1,60 @@
+<!-- add_video.html -->
+{% extends 'vidapp/base.html' %}
+
+{% block title %}Add Video{% endblock %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0">Add New Video Bookmark</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.url.id_for_label }}" class="form-label">Video URL *</label>
+                        {{ form.url.errors }}
+                        {{ form.url|add_class:"form-control" }}
+                        <div class="form-text">Paste the full URL of the video you want to bookmark</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
+                        {{ form.title.errors }}
+                        {{ form.title|add_class:"form-control" }}
+                        <div class="form-text">Leave blank to try auto-fetching the title (recommend: please write your own title to make search easy)</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
+                        {{ form.description.errors }}
+                        {{ form.description|add_class:"form-control" }}
+                        <div class="form-text">Add notes about why you're saving this video or what it contains</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.thumbnail_url.id_for_label }}" class="form-label">Thumbnail URL</label>
+                        {{ form.thumbnail_url.errors }}
+                        {{ form.thumbnail_url|add_class:"form-control" }}
+                        <div class="form-text">Leave blank to try auto-fetching the thumbnail</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.tags_input.id_for_label }}" class="form-label">Tags</label>
+                        {{ form.tags_input.errors }}
+                        {{ form.tags_input|add_class:"form-control" }}
+                        <div class="form-text">Separate tags with commas (e.g., cooking, recipe, italian)</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Save Bookmark</button>
+                    <a href="{% url 'video_list' %}" class="btn btn-outline-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
