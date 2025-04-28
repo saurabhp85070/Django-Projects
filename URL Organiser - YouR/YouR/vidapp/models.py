@@ -17,7 +17,7 @@ class VideoBookmark(models.Model):
     url = models.URLField()
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    thumbnail_url = models.URLField(blank=True, null=True)
+    thumbnail_url = models.URLField(max_length=1000, blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
     tags = models.ManyToManyField(Tag, related_name='videos', blank=True)
     
